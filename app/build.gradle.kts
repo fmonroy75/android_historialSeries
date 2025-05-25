@@ -1,10 +1,10 @@
-val room_version = "2.6.1"
+val room_version = "2.6.1" //variable trabajar con room, debe ser la misma en todas las instancias necesarias
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
-    alias(libs.plugins.kotlinkapt)
+    alias(libs.plugins.kotlinkapt)  //kapt para trabajar con room
 }
 
 
@@ -54,34 +54,40 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    //inicio blo room
     implementation("androidx.room:room-runtime:$room_version")
     implementation(libs.androidx.databinding.adapters)
     implementation(libs.androidx.runtime.livedata)
+    kapt("androidx.room:room-compiler:$room_version") // ✅ correcto para Kotlin
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+
+    //fin bloque room
 
     //room, compose y material
     //implementation(platform("androidx.compose:compose-bom:2024.04.01")) // o más reciente
     //implementation("androidx.compose.ui:ui")
     //implementation("androidx.compose.material3:material3")
+
+    //inicio bloque para compose y trabajo con la bd
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation(libs.androidx.navigation.runtime.android)
+    //fin bloque para compose y trabajo con la bd
 
     // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
     // See Add the KSP plugin to your project
     //ksp("androidx.room:room-compiler:$room_version")
 
-    kapt("androidx.room:room-compiler:$room_version") // ✅ correcto para Kotlin
 
     // If this project only uses Java source, use the Java annotationProcessor
     // No additional plugins are necessary
     //annotationProcessor("androidx.room:room-compiler:$room_version")
 
 
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:$room_version")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
