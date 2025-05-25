@@ -1,0 +1,44 @@
+package com.dosis.bitacora_series.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.dosis.bitacora_series.ui.components.FormularioSerie
+import com.dosis.bitacora_series.ui.components.MenuPrincipal
+import com.dosis.bitacora_series.ui.components.PantallaCalificacion
+import com.dosis.bitacora_series.ui.screens.CalificarSerie
+import com.dosis.bitacora_series.ui.screens.FormularioSerie
+import com.dosis.bitacora_series.ui.screens.MenuPrincipal
+
+sealed class Screens(val route: String) {
+    object Menu : Screens("menu")
+    object Formulario : Screens("formulario")
+    object Calificacion : Screens("calificacion")
+    object Editar : Screens("editar/{serieId}") {
+        fun createRoute(serieId: Int) = "editar/$serieId"
+    }
+}
+
+@Composable
+fun Navigation(navController: NavHostController, modifier: Modifier = Modifier) {
+    NavHost(navController = navController, startDestination = Screens.Menu.route, modifier = modifier) {
+        composable(Screens.Menu.route) {
+            MenuPrincipal(navController)
+        }
+        composable(Screens.Formulario.route) {
+            FormularioSerie(navController)
+        }
+        composable(Screens.Calificacion.route) {
+            CalificarSerie(navController)
+        }
+        composable("editar/{serieId}") { backStackEntry ->
+            val serieId = backStackEntry.arguments?.getString("serieId")?.toIntOrNull()
+            serieId?.let {
+                FormularioSerie(navController, serieId = it)
+            }
+        }
+    }
+}

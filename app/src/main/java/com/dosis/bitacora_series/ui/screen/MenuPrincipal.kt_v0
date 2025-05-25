@@ -1,0 +1,16 @@
+@Composable
+fun MenuPrincipal(onOptionSelected: (String) -> Unit) {
+    val opciones = listOf("Ingresar Serie", "Editar Serie", "Eliminar Serie")
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+        opciones.forEach { opcion ->
+            Button(
+                onClick = { onOptionSelected(opcion) },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(opcion)
+            }
+        }
+    }
+}
